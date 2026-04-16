@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi vuoi bene?</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 0;
+        }
+        #btn-si { transition: transform 0.3s ease; z-index: 100; }
+        #btn-no { transition: all 0.2s ease; }
+        .gif-felice { display: none; max-width: 300px; border-radius: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="text-center">
+        <h1 id="titolo" class="display-4 mb-4">Mi vuoi bene?</h1>
+        
+        <div id="controlli">
+            <button id="btn-si" class="btn btn-success btn-lg mx-2">SÌ</button>
+            <button id="btn-no" class="btn btn-danger btn-lg mx-2">NO</button>
+        </div>
+
+        <img id="gif" src="felice.gif" class="gif-felice shadow-lg mt-3">
+    </div>
+
+    <script>
+        const btnSi = document.getElementById('btn-si');
+        const btnNo = document.getElementById('btn-no');
+        const gif = document.getElementById('gif');
+        const titolo = document.getElementById('titolo');
+        const controlli = document.getElementById('controlli');
+
+        let clickNo = 0;
+        let siScale = 1;
+
+        btnSi.onclick = () => {
+            titolo.innerText = "Sapevo che mi volevi bene! ❤️";
+            controlli.style.display = 'none';
+            gif.style.display = 'block';
+        };
+
+        btnNo.onclick = () => {
+            clickNo++;
+
+            // Il SI cresce sempre
+            siScale += 0.5;
+            btnSi.style.transform = `scale(${siScale})`;
+
+            // LOGICA STEP BY STEP:
+            
+            // 4° Click: Sposta nell'angolo
+            if (clickNo === 4) {
+                btnNo.style.position = 'fixed';
+                btnNo.style.right = '20px';
+                btnNo.style.bottom = '20px';
+            }
+
+            // 5° Click: Diventa piccolissimo
+            if (clickNo === 5) {
+                btnNo.style.transform = 'scale(0.3)';
+                btnNo.style.opacity = '0.7';
+            }
+        };
+
+        // 6° Tentativo: Scappa al passaggio del mouse
+        btnNo.onmouseover = () => {
+            if (clickNo >= 6) {
+                const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+                const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+                
+                btnNo.style.position = 'fixed'; // Assicura che sia fuori dal flusso normale
+                btnNo.style.left = x + 'px';
+                btnNo.style.top = y + 'px';
+            }
+        };
+    </script>
+</body>
+</html>
